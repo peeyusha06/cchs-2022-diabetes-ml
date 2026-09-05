@@ -103,6 +103,7 @@ cchs-2022-diabetes-ml/
 ├── requirements.txt
 ├── notebooks/
 │   └── 01_—_Full_Dataset_Exploration_&_Preliminary_Feature_Selection.ipynb
+    └── 02_—_Controlled_Feature_Experiments_Setup.ipynb
 ├── docs/
 ├── results/
 ├── src/
