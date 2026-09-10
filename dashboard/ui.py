@@ -36,7 +36,6 @@ FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-se
 def page_config():
     st.set_page_config(
         page_title="CCHS 2022 Diabetes ML - Research Explorer",
-        page_icon="🔬",
         layout="wide",
         initial_sidebar_state="auto",
     )
