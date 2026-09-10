@@ -109,15 +109,20 @@ def inject_css():
           div[data-testid="stExpander"] details {{ border-color:{RULE}; }}
 
           /* keep side-by-side cards/callouts the same height, so their bottom edges
-             line up even when one has more text than the other. */
+             line up even when one has more text than the other.
+             Verified against the real Streamlit 1.63 DOM: stColumn > (div) > stVerticalBlock
+             > stElementContainer > stMarkdown > (div) > stMarkdownContainer > .card/.callout.
+             The previous version of this rule used the wrong test id ("element-container"
+             instead of "stElementContainer") and relied on :has(), so it never matched. */
           div[data-testid="stHorizontalBlock"] {{ align-items: stretch; }}
-          div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
-              display:flex; }}
-          div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] > div {{
-              width:100%; }}
-          div[data-testid="stColumn"] div[data-testid="stVerticalBlock"] {{ height:100%; }}
-          div[data-testid="stColumn"] div[data-testid="element-container"]:has(.card),
-          div[data-testid="stColumn"] div[data-testid="element-container"]:has(.callout) {{
+          div[data-testid="stColumn"] {{ display:flex; }}
+          div[data-testid="stColumn"] > div {{ width:100%; height:100%; }}
+          div[data-testid="stColumn"] div[data-testid="stVerticalBlock"],
+          div[data-testid="stColumn"] div[data-testid="stElementContainer"],
+          div[data-testid="stColumn"] div[data-testid="stElementContainer"] > div,
+          div[data-testid="stColumn"] div[data-testid="stMarkdown"],
+          div[data-testid="stColumn"] div[data-testid="stMarkdown"] > div,
+          div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] {{
               height:100%; }}
           .card, .callout {{ height:100%; box-sizing:border-box; }}
         </style>
@@ -201,13 +206,18 @@ def base_layout(fig, height=380, title=None, ytitle=None, xtitle=None, showlegen
     # The `title` key is only added when there is one — passing title=None through to
     # Plotly still renders an (empty) title trace, which showed up as a literal
     # "undefined" in the deployed app.
+    # When a chart has BOTH an x-axis title and a legend, the bottom margin needs a
+    # third stacked row (tick labels, then axis title, then legend) or the legend
+    # draws on top of the axis title.
+    extra = 44 if (xtitle and showlegend) else 0
+    legend_y = -0.42 if (xtitle and showlegend) else -0.16
     layout = dict(
         template="simple_white",
-        height=height + (34 if showlegend else 0),
-        margin=dict(l=10, r=10, t=52 if title else 18, b=54 if showlegend else 10),
+        height=height + (34 if showlegend else 0) + extra,
+        margin=dict(l=10, r=10, t=52 if title else 18, b=(54 if showlegend else 10) + extra),
         font=dict(family=FONT, size=13, color=BODY),
         showlegend=showlegend,
-        legend=dict(orientation="h", yanchor="top", y=-0.16, x=0),
+        legend=dict(orientation="h", yanchor="top", y=legend_y, x=0),
         hoverlabel=dict(font_size=12),
     )
     if title:
