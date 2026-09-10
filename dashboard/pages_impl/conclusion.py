@@ -27,7 +27,7 @@ def render():
 
     # ------------------------------------------------------------- cannot claim
     st.markdown("## What this project cannot claim")
-    st.write("A guardrail list — useful when writing about or presenting this work.")
+    st.write("Worth checking before writing about or presenting this work.")
     for headline, detail in C.CANNOT_CLAIM:
         st.markdown(
             f"<div class='card callout-warn' style='border-left-color:{ui.RED};"
@@ -65,13 +65,13 @@ def render():
         "**The notebooks**  \nTwelve executed notebooks in `notebooks/`, from the dataset audit "
         "through to the fresh-holdout check.")
     w2.markdown(
-        "**The academic report**  \n`docs/CCHS_2022_Diabetes_Academic_Report.docx` — the full "
-        "written study with references.")
+        "**The result files**  \nTen CSV files in `notebooks/` hold every number this dashboard "
+        "shows, so any figure here can be checked against the file it came from.")
     w3.markdown(
-        "**The teaching deck**  \n`presentation/` contains an 87-slide master understanding "
-        "deck that explains the project from zero background.")
+        "**This dashboard**  \n`dashboard/` in the same repository, if you want to see how a "
+        "number on this page was put together.")
 
     ui.source_note(
-        "Sources: the project academic report (Sections 8 and 10) for limitation and conclusion "
-        "wording; Notebook 02 and the repository contents for the not-completed list; the ten "
-        "experiment result CSV files for every figure quoted on this page.")
+        "The limitations and conclusions follow the academic report (Sections 8 and 10). "
+        "The not-completed list comes from Notebook 02 and the repository itself. Every "
+        "number on this page is from the ten experiment CSV files.")

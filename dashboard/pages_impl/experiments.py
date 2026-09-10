@@ -114,7 +114,7 @@ def render():
     with cm2:
         st.markdown("### What this tells us")
         st.write(meta["interpretation"])
-        ui.callout(meta["caveat"], title="Important caveat", kind="warn")
+        ui.callout(meta["caveat"], kind="warn")
 
     # ------------------------------------------------------------- F extra panel
     if condition == "F":
@@ -125,11 +125,8 @@ def render():
         ui.metric_card(f2, int(row["selected_variable_count"]), "were retained", ui.GREEN)
         ui.metric_card(f3, int(row["original_candidate_count"] - row["selected_variable_count"]),
                        "were dropped", ui.RED)
-        ui.callout(
-            "All 16 candidates were retained and none were dropped. This is <b>not</b> evidence "
-            "that automatic sparse feature elimination worked — at the chosen penalty strength "
-            "the L1 screen removed nothing. The meaningful reading is that a broader documented "
-            "feature representation performed better.", kind="warn")
+        st.caption("Same 16 in, 16 out. The caveat above explains why that is not a "
+                   "successful feature-selection result.")
 
     # ------------------------------------------------------------- comparison
     st.markdown("## What changed as the information changed?")
@@ -153,7 +150,6 @@ def render():
         "preprocessing setup.")
 
     ui.source_note(
-        "Sources: experiment_A_results.csv, experiment_B_results.csv, experiment_C_results.csv, "
-        "experiment_D1_results.csv, experiment_D2_results.csv and experiment_F_results.csv, read "
-        "directly from notebooks/. Experiment A and B confusion matrices come from the executed "
-        "notebooks because those two CSVs do not contain them.")
+        "Numbers come straight from the six experiment CSV files in notebooks/. A and B's "
+        "confusion matrices aren't in those files, so those two come from the executed "
+        "notebooks instead.")

@@ -199,14 +199,11 @@ def render():
             "<p>Hold it outside the main feature sets, because including it would quietly shift "
             "the question from “who reports diabetes?” towards “who has contact with the health "
             "system?”.</p></div>", unsafe_allow_html=True)
-    ui.callout(
-        "<b>Wording matters.</b> This is a <b>methodological leakage / prediction-pathway "
-        "concern</b>. The project did not demonstrate leakage, and does not claim to have.",
-        kind="warn")
+    st.caption("A leakage concern, not a finding: the project never showed it happened, "
+               "and doesn't claim it did.")
     ui.why_expander(C.WHY["rhc"])
 
     ui.source_note(
-        "Sources: Notebook 01, Stage 13 (candidate-pool construction and grouping); "
-        "Statistics Canada, CCHS 2022 PUMF Data Dictionary (all codes, universes and "
-        f"frequencies); {D.USER_GUIDE_SOURCE} (complex-design quotation). "
-        f"Prevalence contrast: {D.PREVALENCE_CONTRAST['source']}")
+        "The candidate list comes from Notebook 01, Stage 13. Codes, universes and "
+        "frequencies are from the CCHS 2022 PUMF Data Dictionary, and the complex-design "
+        f"quote is from {D.USER_GUIDE_SOURCE}. {D.PREVALENCE_CONTRAST['source']}")

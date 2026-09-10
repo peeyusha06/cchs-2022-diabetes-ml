@@ -75,6 +75,5 @@ def render():
         "what it cannot claim.")
 
     ui.source_note(
-        "Sources: counts from Notebook 02 and the CCHS 2022 PUMF Data Dictionary; findings from "
-        "the ten experiment result CSV files in <code>notebooks/</code>. "
-        "This dashboard reads those files directly - no numbers are re-typed.")
+        "Numbers come from Notebook 02, the CCHS 2022 PUMF Data Dictionary, and the ten "
+        "experiment CSV files in <code>notebooks/</code>, read directly rather than re-typed.")

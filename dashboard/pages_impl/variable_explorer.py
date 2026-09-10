@@ -87,6 +87,6 @@ def render():
         ui.static_table(pd.DataFrame(rows))
 
     ui.source_note(
-        f"Source for concept, universe, coding and frequencies: {v['source']}. "
-        "Experiment membership is taken from the FEATURES lists in the executed experiment "
-        "notebooks. BMI_CLASS is constructed by this project and is not a CCHS variable.")
+        f"Concept, universe, coding and frequencies come from {v['source']}. Which "
+        "experiments use a variable is read from the FEATURES list in each notebook. "
+        "BMI_CLASS was built by this project; it isn't a CCHS variable itself.")

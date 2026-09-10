@@ -46,9 +46,9 @@ def render():
 
     with st.expander("What settings were tried, and how were they chosen?"):
         st.write(
-            "The searches were deliberately small — the goal was to compare model classes, not "
-            "to run an exhaustive tuning study. Every choice below was made on validation data "
-            "only, and then locked before the test set was scored.")
+            "The searches were deliberately small. The goal was to compare model classes, not "
+            "run an exhaustive tuning study. Every choice below was made on validation data "
+            "only, then locked before the test set was scored.")
         ui.static_table(pd.DataFrame([
             {"Model": "Logistic Regression",
              "Settings tried on validation": "none — the project's existing configuration was reused",
@@ -98,7 +98,7 @@ def render():
     ui.metric_explainer(metric, C.METRIC_GLOSSARY)
 
     # -------------------------------------------------------------- no winner
-    st.markdown("## There is no winner — and that is the finding")
+    st.markdown("## No model wins outright")
     leads = [
         ("Gradient Boosting", ui.ORANGE,
          "highest F1 (0.365), ROC-AUC (0.815) and precision (0.285)"),
@@ -155,5 +155,5 @@ def render():
     ui.why_expander(C.WHY["logreg"])
 
     ui.source_note(
-        "Source: model_comparison_D2_results.csv, read directly from notebooks/. "
-        "The C-to-D2 F1 comparison uses experiment_C_results.csv and experiment_D2_results.csv.")
+        "From model_comparison_D2_results.csv in notebooks/. The C-to-D2 F1 comparison also "
+        "pulls from experiment_C_results.csv and experiment_D2_results.csv.")

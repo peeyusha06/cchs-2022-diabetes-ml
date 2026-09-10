@@ -57,34 +57,29 @@ def render():
     st.caption(f"↓ every one of them scored against the identical test partition "
                f"(seed {facts['random_state']})")
 
-    p1, p2 = st.columns(2)
-    with p1:
-        st.markdown(
-            "<div class='callout callout-good'><div class='callout-title'>What was still done "
-            "correctly</div><p>Within each experiment, the model and threshold were locked "
-            "using training and validation data before the test set was touched. No threshold "
-            "was ever tuned on test data.</p></div>", unsafe_allow_html=True)
-    with p2:
-        st.markdown(
-            "<div class='callout callout-warn'><div class='callout-title'>What is still a "
-            "limitation</div><p>Across the project, those test results were visible while "
-            "deciding what to try next. That makes the sequence an iterative development "
-            "process, not five untouched final evaluations.</p></div>", unsafe_allow_html=True)
+    st.write(
+        "What was still done correctly: within each experiment, the model and threshold "
+        "were locked using training and validation data before the test set was touched. "
+        "No threshold was ever tuned on test data.")
+    ui.callout(
+        "Across the project, those test results were visible while deciding what to try "
+        "next. That makes the sequence an iterative development process, not five "
+        "untouched final evaluations.", title="The limitation that remains", kind="warn")
 
     # ------------------------------------------------------------- the check
     st.markdown("## The check: deal the split again")
     seed = int(fresh["split_random_state"].iloc[0])
     steps = [
         ("Re-split", ui.BLUE,
-         f"The same {facts['modelling_population']:,} people are divided again using seed "
-         f"{seed} instead of {facts['random_state']} — producing a test set of different "
-         "individuals."),
+         f"The same {facts['modelling_population']:,} people are divided again, using seed "
+         f"{seed} instead of {facts['random_state']}. This produces a test set of "
+         "different individuals."),
         ("Re-fit", ui.BLUE,
          "The three D2 models are retrained on the new training portion, using the exact "
          "configurations already chosen."),
         ("Re-use the locked thresholds", ui.ORANGE,
-         "0.68 for Logistic Regression, 0.68 for Random Forest, 0.70 for Gradient Boosting — "
-         "carried over unchanged."),
+         "0.68 for Logistic Regression, 0.68 for Random Forest, 0.70 for Gradient Boosting. "
+         "These carry over unchanged."),
         ("Score once", ui.GREEN,
          "The new test set is evaluated a single time. No tuning, no searching, no threshold "
          "re-selection."),
@@ -122,33 +117,28 @@ def render():
 
     # ------------------------------------------------------------- reading
     st.markdown("## How to read this")
-    r1, r2 = st.columns(2)
-    with r1:
-        st.markdown(
-            "<div class='callout callout-good'><div class='callout-title'>What it supports</div>"
-            "<p>• Every model scored slightly higher, so the original split was not flattering "
-            "the results<br>"
-            "• The three models stayed close together, as before<br>"
-            "• Random Forest again had the lowest log loss; Logistic Regression again had the "
-            "highest PR-AUC<br>"
-            "• The locked thresholds still produced sensible behaviour on unseen rows</p></div>",
-            unsafe_allow_html=True)
-    with r2:
-        st.markdown(
-            "<div class='callout callout-warn'><div class='callout-title'>What it does not "
-            "support</div>"
-            "<p>• It is one additional split of the same survey, not external validation<br>"
-            "• It says nothing about another CCHS cycle, another country, or a clinical "
-            "population<br>"
-            "• It does not remove the test-set reuse limitation from A–D2<br>"
-            "• Small re-orderings between Random Forest and Gradient Boosting on F1 remain "
-            "noise, not evidence</p></div>", unsafe_allow_html=True)
+    st.markdown(
+        "**What it supports**\n"
+        "- Every model scored slightly higher, so the original split was not flattering "
+        "the results\n"
+        "- The three models stayed close together, as before\n"
+        "- Random Forest again had the lowest log loss; Logistic Regression again had the "
+        "highest PR-AUC\n"
+        "- The locked thresholds still produced sensible behaviour on unseen rows")
+    st.markdown(
+        "**What it does not support**\n"
+        "- It is one additional split of the same survey, not external validation\n"
+        "- It says nothing about another CCHS cycle, another country, or a clinical "
+        "population\n"
+        "- It does not remove the test-set reuse limitation from A-D2\n"
+        "- Small re-orderings between Random Forest and Gradient Boosting on F1 remain "
+        "noise, not evidence")
 
     ui.callout(
-        "The honest one-line summary: “On a second, previously unused split of the same survey, "
-        "the D2 models behaved much as they did on the first — which is <b>supplementary "
-        "confirmation, not proof of generalisation</b>.”")
+        "The honest one-line summary: on a second, previously unused split of the same "
+        "survey, the D2 models behaved much as they did on the first, which is "
+        "<b>supplementary confirmation, not proof of generalisation</b>.")
 
     ui.source_note(
-        "Sources: d2_fresh_holdout_results.csv (split_random_state = 137) and "
-        "model_comparison_D2_results.csv, both read directly from notebooks/.")
+        "From d2_fresh_holdout_results.csv (split random_state=137) and "
+        "model_comparison_D2_results.csv, both in notebooks/.")

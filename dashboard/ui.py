@@ -38,7 +38,7 @@ def page_config():
         page_title="CCHS 2022 Diabetes ML - Research Explorer",
         page_icon="🔬",
         layout="wide",
-        initial_sidebar_state="expanded",
+        initial_sidebar_state="auto",
     )
 
 
@@ -107,6 +107,19 @@ def inject_css():
           .block-container {{ padding-top:3.4rem; padding-bottom:3rem; max-width:1180px; }}
           [data-testid="stMetricValue"] {{ font-size:1.6rem; }}
           div[data-testid="stExpander"] details {{ border-color:{RULE}; }}
+
+          /* keep side-by-side cards/callouts the same height, so their bottom edges
+             line up even when one has more text than the other. */
+          div[data-testid="stHorizontalBlock"] {{ align-items: stretch; }}
+          div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+              display:flex; }}
+          div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] > div {{
+              width:100%; }}
+          div[data-testid="stColumn"] div[data-testid="stVerticalBlock"] {{ height:100%; }}
+          div[data-testid="stColumn"] div[data-testid="element-container"]:has(.card),
+          div[data-testid="stColumn"] div[data-testid="element-container"]:has(.callout) {{
+              height:100%; }}
+          .card, .callout {{ height:100%; box-sizing:border-box; }}
         </style>
         """,
         unsafe_allow_html=True,
@@ -165,9 +178,13 @@ def source_note(text):
 
 
 def why_expander(entry):
-    """Render a ('question', 'answer') tuple from content.WHY as an expander."""
+    """Render a ('question', 'answer') tuple from content.WHY as an expander.
+
+    The question itself already opens with "Why...", so it needs no extra prefix -
+    repeating "Why did we do this?" on every expander site-wide read as boilerplate.
+    """
     question, answer = entry
-    with st.expander(f"Why did we do this?  ·  {question}"):
+    with st.expander(question):
         st.write(answer)
 
 
@@ -181,16 +198,21 @@ def metric_explainer(metric_key, glossary):
 def base_layout(fig, height=380, title=None, ytitle=None, xtitle=None, showlegend=False):
     """Common Plotly styling so every chart in the dashboard looks the same."""
     # The legend sits BELOW the plot: placing it above collides with the chart title.
-    fig.update_layout(
+    # The `title` key is only added when there is one — passing title=None through to
+    # Plotly still renders an (empty) title trace, which showed up as a literal
+    # "undefined" in the deployed app.
+    layout = dict(
         template="simple_white",
         height=height + (34 if showlegend else 0),
         margin=dict(l=10, r=10, t=52 if title else 18, b=54 if showlegend else 10),
-        title=dict(text=title, font=dict(size=15, color=INK)) if title else None,
         font=dict(family=FONT, size=13, color=BODY),
         showlegend=showlegend,
         legend=dict(orientation="h", yanchor="top", y=-0.16, x=0),
         hoverlabel=dict(font_size=12),
     )
+    if title:
+        layout["title"] = dict(text=title, font=dict(size=15, color=INK))
+    fig.update_layout(**layout)
     if ytitle:
         fig.update_yaxes(title_text=ytitle)
     if xtitle:

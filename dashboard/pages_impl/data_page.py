@@ -58,28 +58,28 @@ def render():
     # ------------------------------------------------------------------ CCHS
     st.markdown("## What is the CCHS?")
     st.write(
-        "The Canadian Community Health Survey is a large national survey run by Statistics "
-        "Canada. It covers people aged 12 and older, and it measures health status, health-care "
-        "use and the determinants of health. The 2022 cycle was a major redesign, so "
-        "comparisons with earlier cycles need caution.")
+        "The Canadian Community Health Survey (CCHS) is a national health survey run by "
+        "Statistics Canada. It covers people aged 12 and older, and asks about health "
+        "status, health-care use, and what affects health. The 2022 cycle was redesigned, "
+        "so comparing it with earlier cycles needs care.")
     ui.callout(
-        "The CCHS is <b>cross-sectional</b>: each person is observed once. That single word "
-        "limits every conclusion on this dashboard, because nothing in the data records what "
-        "happened before or after.", kind="warn")
+        "The CCHS is <b>cross-sectional</b>: each person is observed once, not followed "
+        "over time. That limits every conclusion on this dashboard, because the data does "
+        "not record what happened before or after.", kind="warn")
 
     # ------------------------------------------------------------------ PUMF
     st.markdown("## What is a PUMF?")
     left, right = st.columns([0.5, 0.5])
     with left:
         st.write(
-            "A **Public Use Microdata File** is the publicly released version of the survey. "
-            "It contains row-level records — one row per respondent — but to protect "
-            "confidentiality the answers are grouped into broad categories and stored as "
-            "numeric codes rather than exact values.")
+            "A **Public Use Microdata File** is the publicly released version of the "
+            "survey: one row per respondent, but to protect confidentiality the answers "
+            "are grouped into broad categories and stored as numeric codes instead of "
+            "exact values.")
         st.write(
             f"The file used here is **{facts['respondents']:,} rows × "
-            f"{facts['variables']} columns**. One row is one respondent's full set of answers; "
-            "one column is one survey variable.")
+            f"{facts['variables']} columns**. Each row is one respondent's full set of "
+            "answers, and each column is one survey variable.")
     with right:
         st.markdown("**Exact age is not in the file. Instead:**")
         ui.static_table(pd.DataFrame({
@@ -92,8 +92,8 @@ def render():
 
     with st.expander("What does one row actually look like?"):
         st.write(
-            "The row below is **synthetic** — it was constructed to show the structure. "
-            "No real respondent record appears anywhere in this dashboard.")
+            "The row below is **synthetic**, built only to show the structure. No real "
+            "respondent record appears anywhere in this dashboard.")
         ui.static_table(pd.DataFrame([{
             "DHHGAGE": "4", "DHH_SEX": "2", "GEOGPRV": "35", "BMI_CLASS": "2",
             "CCC_80": "1", "CCC_05 (target)": "1",
@@ -138,24 +138,24 @@ def render():
                                     f"{facts['modelling_population']:,})", ui.ORANGE)
     with c2:
         ui.callout(
-            "A model that simply answered “no diabetes” for every single person would score "
-            "<b>90.95% accuracy</b> and find <b>zero</b> of the 5,994 people who report "
-            "diabetes. That is why this project judges models mainly on precision, recall, "
-            "F1 and PR-AUC rather than on accuracy.", title="The accuracy trap", kind="warn")
+            "A model that just answered “no diabetes” for everyone would score "
+            "<b>90.95% accuracy</b> and still find <b>zero</b> of the 5,994 people who "
+            "report diabetes. That's why this project judges models mainly on precision, "
+            "recall, F1 and PR-AUC, not accuracy.", title="The accuracy trap", kind="warn")
 
     with st.expander("Why does 9.05% change how we judge the models?"):
         st.write(
-            "When one class is rare, a metric that counts all correct answers equally is "
-            "dominated by the easy majority. Precision and recall look only at the positive "
-            "class, F1 balances them, and PR-AUC summarises positive-class ranking quality "
-            "across thresholds. All four are explained on the Experiment Explorer page.")
+            "When one class is rare, a metric that treats every correct answer the same "
+            "gets dominated by the easy majority. Precision and recall look only at the "
+            "positive class. F1 balances the two, and PR-AUC summarises how well the model "
+            "ranks the positive class across thresholds. All four are explained on the "
+            "Experiment Explorer page.")
 
     ui.callout(
-        "This 9.05% is an <b>unweighted</b> share of the modelling population. The survey's "
-        "own weighted percentage differs — see the sampling-weight explainer on the Feature "
-        "Audit page.", kind="info")
+        "The 9.05% is the unweighted share of the modelling population. The survey's own "
+        "weights give a different estimate, explained on the Feature Audit page.",
+        kind="info")
 
     ui.source_note(
-        "Sources: Statistics Canada, CCHS 2022 PUMF Data Dictionary (September 2025) for "
-        "CCC_05 and DHHGAGE codes and frequencies; Notebook 02 for the modelling population "
-        "and class counts.")
+        "CCC_05 and DHHGAGE codes come from Statistics Canada's CCHS 2022 PUMF Data "
+        "Dictionary (September 2025). The population and class counts come from Notebook 02.")

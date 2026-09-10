@@ -79,28 +79,23 @@ def render():
     st.plotly_chart(_cv_figure(summary, metric), width="stretch",
                     config={"displayModeBar": False})
     st.caption(
-        "Vertical axis is zoomed to make the standard-deviation bars visible — it does not "
-        "start at zero. Overlapping bars mean the models are not clearly separated. "
-        "Mean and standard deviation are the values the notebook itself saved.")
+        "Vertical axis is zoomed to make the standard-deviation bars visible, so it does not "
+        "start at zero. Overlapping bars mean the models are not clearly separated. Mean and "
+        "standard deviation are the values the notebook itself saved.")
 
     with st.expander("See the individual fold scores"):
         pivot = folds.pivot(index="fold", columns="model", values=metric)
         pivot = pivot.reset_index().rename(columns={"fold": "Fold"})
         ui.static_table(pivot, formats={c: "{:.4f}" for c in pivot.columns if c != "Fold"})
 
-    cc1, cc2 = st.columns(2)
-    with cc1:
-        st.markdown(
-            "<div class='callout callout-good'><div class='callout-title'>What this does show"
-            "</div><p>The models' error bars overlap on ROC-AUC and PR-AUC. The mean ROC-AUC "
-            "spread is about 0.003 — smaller than the fold-to-fold variation within any single "
-            "model.</p></div>", unsafe_allow_html=True)
-    with cc2:
-        st.markdown(
-            "<div class='callout callout-warn'><div class='callout-title'>What this does NOT "
-            "show</div><p>It is a stability check on already-chosen settings — not a new tuning "
-            "run, not an unbiased estimate of final performance, and not a replacement for the "
-            "held-out test set.</p></div>", unsafe_allow_html=True)
+    st.markdown("#### What the result tells us")
+    st.write(
+        "The models' error bars overlap on ROC-AUC and PR-AUC. The mean ROC-AUC spread is "
+        "about 0.003, smaller than the fold-to-fold variation within any single model.")
+    ui.callout(
+        "This is a stability check on already-chosen settings, not a new tuning run. It is "
+        "not an unbiased estimate of final performance, and it does not replace the held-out "
+        "test set.", title="What it does not establish", kind="warn")
     ui.why_expander(C.WHY["cv"])
 
     # ============================================================ interpretability
@@ -159,12 +154,12 @@ def render():
         st.write(
             "A decision tree splits the data into groups that are more uniform than the group "
             "it started with. Impurity importance measures how much each variable reduced that "
-            "mixedness across all the splits in the model, averaged over all the trees. It says "
-            "how useful a variable was for splitting — not the direction of the effect, and not "
-            "whether the variable matters outside this model.")
+            "mixedness across all the splits in the model, averaged over all the trees. It "
+            "only says how useful a variable was for splitting. It says nothing about the "
+            "direction of the effect, and nothing about whether the variable matters outside "
+            "this model.")
 
     ui.source_note(
-        "Sources: d2_robustness_5fold_results.csv (per-fold scores plus the mean and std rows "
-        "saved by the notebook) and d2_interpretability_results.csv, both read directly from "
-        "notebooks/. Cross-validation used StratifiedKFold with shuffle = True and "
-        "random_state = 42 on the training portion only.")
+        "From d2_robustness_5fold_results.csv and d2_interpretability_results.csv in "
+        "notebooks/. Cross-validation used StratifiedKFold, shuffle=True, random_state=42, "
+        "on the training portion only.")

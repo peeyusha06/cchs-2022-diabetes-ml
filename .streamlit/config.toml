@@ -1,0 +1,9 @@
+# The dashboard's colours (dashboard/ui.py) are designed for a light background only.
+# Pinning the theme keeps the app readable regardless of the visitor's system/browser
+# dark-mode setting, instead of patching every hard-coded colour for two themes.
+[theme]
+base = "light"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#1A2A3A"
+primaryColor = "#2E6DA4"

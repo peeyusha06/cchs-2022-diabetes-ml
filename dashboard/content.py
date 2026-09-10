@@ -151,11 +151,10 @@ WHY = {
         "conclusions depended on that one particular partition."),
     "logreg": (
         "Why keep Logistic Regression as the reference model?",
-        "Not because it won. Test results were never used to select a model, since that would "
-        "turn the final score into a best-of-three. Logistic Regression is retained because its "
-        "performance is broadly comparable to the tree-based alternatives, it is simpler, and "
-        "its coefficients can be read directly - which is what makes the interpretability "
-        "analysis possible."),
+        "Not because it won on the test set. The callout above explains why that would be "
+        "circular. It is retained because its performance is broadly comparable to the "
+        "tree-based alternatives, it is simpler, and its coefficients can be read directly, "
+        "which is what makes the interpretability analysis possible."),
     "rhc": (
         "Why was RHC_05 held out?",
         "Diabetes is diagnosed by a health professional, so someone with a regular provider is "
@@ -256,10 +255,10 @@ EXPERIMENTS = {
             "Logistic Regression conditions. The headline result, though, is what the screening "
             "step did not do: all 16 candidate variables were retained and none were dropped."),
         caveat=(
-            "This is not evidence that automatic sparse feature elimination worked - L1 removed "
-            "nothing at the chosen penalty strength. F also uses a broader preprocessing setup "
-            "including one scaled numeric variable, so it is not a like-for-like swap with A, "
-            "B, C or D2. It is a wider representation, not a cleaner one."),
+            "That result is not evidence that sparse selection worked here. F also uses a "
+            "broader preprocessing setup, including one scaled numeric variable, so it is not "
+            "a like-for-like swap with A, B, C or D2. It is a wider representation, not a "
+            "cleaner one."),
         comparator=None),
 }
 
@@ -353,5 +352,5 @@ CANNOT_CLAIM = [
     ("It cannot claim to generalise",
      "No other cycle, country or clinical cohort was tested."),
     ("It cannot claim automatic feature selection worked",
-     "The L1 screen retained all 16 candidate variables and dropped none."),
+     "All 16 candidate variables were kept; none were screened out."),
 ]
