@@ -4,6 +4,8 @@ A machine learning project that looks at how well diabetes status can be classif
 
 Live dashboard: https://cchs-2022-diabetes-ml.streamlit.app/
 
+Literature review: [literature_review/CCHS_2022_Diabetes_Literature_Review.pdf](literature_review/CCHS_2022_Diabetes_Literature_Review.pdf). Written during the project to guide feature selection, tidied up in September 2026.
+
 The dashboard is the easiest way to look through the project. It walks through the data, the feature selection reasoning, all six completed experiments, the model comparison, and the limitations, all pulled directly from the result files in this repo rather than retyped.
 
 If the app has been asleep, click "Yes, get this app back up!" and give it about a minute to load. These screenshots show what it looks like:
