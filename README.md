@@ -8,19 +8,7 @@ Literature review: [literature_review/CCHS_2022_Diabetes_Literature_Review.pdf](
 
 The dashboard is the easiest way to look through the project. It walks through the data, the feature selection reasoning, all six completed experiments, the model comparison, and the limitations, all pulled directly from the result files in this repo rather than retyped.
 
-If the app has been asleep, click "Yes, get this app back up!" and give it about a minute to load. These screenshots show what it looks like:
-
-**Overview**
-
-![Dashboard overview page](dashboard/screenshots/01_Overview.png)
-
-**Model comparison on the D2 feature set**
-
-![Model comparison page](dashboard/screenshots/06_Model_Comparison.png)
-
-**Fresh holdout check**
-
-![Fresh holdout page](dashboard/screenshots/08_Fresh_Holdout.png)
+If the app has been asleep, click "Yes, get this app back up!" and give it about a minute to load.
 
 ## Research question
 
